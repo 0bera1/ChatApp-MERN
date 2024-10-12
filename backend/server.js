@@ -3,10 +3,10 @@ const dotenv = require("dotenv");
 const app = express();
 
 dotenv.config();
-const PORT = process.env.PORT || 5001;
+const PORT = process.env.PORT || 5001; // if PORT is not defined in .env file then use 5001
 
 app.get("/", (req, res) => {
-  // root route http://localhost:5001/
+  // root route handler
   res.send("Hello World !!!");
 });
 
