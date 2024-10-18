@@ -2,32 +2,18 @@ import { useState } from "react";
 import toast from "react-hot-toast";
 import { useAuthContext } from "../context/AuthContext";
 
-const useSignup = () => {
+const useLogin = () => {
   const [loading, setloading] = useState(false); // Butona basıldığında loading ekranı göstermek için
   const { setauthUser } = useAuthContext(); // AuthContext'i kullanmak için
-  const signup = async ({
-    // Butona basıldığında çalışacak fonksiyon
-    fullName,
-    userName,
-    email,
-    password,
-    confirmPassword,
-    gender,
-  }) => {
-    const success = handleInputErrors({
-      fullName,
-      userName,
-      email,
-      password,
-      confirmPassword,
-      gender,
-    }); // inputları kontrol et
-    if (!success) return; // Eğer hatalı input varsa fonksiyon burada sonlanır
 
+  const login = async (userName, password) => {
+    const success = handleInputErrors(userName, password);
+    // inputları kontrol et
+    if (!success) return; // Eğer hatalı input varsa fonksiyon burada sonlanır
     setloading(true); // Butona basıldığında loading ekranı göstermek için
     try {
       // Bu try-catch bloğu, post request'i yapmak için kullanılır.
-      const res = await fetch("/api/auth/signup", {
+      const res = await fetch("/api/auth/login", {
         // backend'e post request at
         // Post request ne demek ? -> Yeni bir veri oluşturmak için kullanılır
         method: "POST",
@@ -35,12 +21,8 @@ const useSignup = () => {
           "Content-Type": "application/json",
         }, // request'in içeriğinin json formatında olduğunu belirt
         body: JSON.stringify({
-          fullName,
           userName,
-          email,
           password,
-          confirmPassword,
-          gender,
         }), // request'in içeriği
       }); // fetch fonksiyonu, bir url'e request atmak için kullanılır
       const data = await res.json(); // response'u json formatına çevir
@@ -58,54 +40,36 @@ const useSignup = () => {
       toast.error("Error: " + error.message);
     } finally {
       // Her durumda çalışacak blok
-      setloading(false);
+      setloading(false); // Loading ekranını kapat
     }
   };
-  return { loading, signup }; // signup fonksiyonunu ve loading state'ini döndür
+  return { login, loading };
 };
 
-export default useSignup;
+export default useLogin;
 
-function handleInputErrors({
+function handleInputErrors(
   // inputları kontrol et
-  fullName,
   userName,
-  email,
   password,
-  confirmPassword,
-  gender,
-}) {
+) {
+    if (!userName|| !password) {
+    // Eğer username veya password boşsa
+    toast.error("Username and password cannot be empty!"); // Username ve password boş olamaz
+    return false; // false döndür
+    }
   // Eğer hatalı input varsa toast mesajı göster
-  if (
-    !fullName ||
-    !userName ||
-    !email ||
-    !password ||
-    !confirmPassword ||
-    !gender
-  ) {
-    toast.error("Please fill all the fields");
-    return false;
+  if (!userName) {
+    // Eğer username boşsa
+    toast.error("Username cannot be empty!"); // Username boş olamaz
+    return false; // false döndür
+  }
+  if (!password) {
+    // Eğer password boşsa
+    toast.error("Password cannot be empty!"); // Password boş olamaz
+    return false; // false döndür
   }
 
-  if (password !== confirmPassword) {
-    // Eğer password ve confirmPassword aynı değilse toast mesajı göster
-    toast.error("Passwords do not match");
-    return false;
-  }
-
-  if (password.length < 6) {
-    // Eğer password 6 karakterden kısa ise toast mesajı göster
-    toast.error("Password must be at least 6 characters long");
-    return false;
-  }
-
-  if (!email.includes("@") || !email.includes(".com")) {
-    toast.error("Invalid email");
-    return false;
-  } // Eğer email adresi geçerli formatta değilse toast mesajı göster
-
-  // NOT: Aynı username ile kayıtlı kullanıcı var mı kontrol et
   return true;
   // Eğer hatalı input yoksa işlemleri true döndür ve handleInputErrors fonksiyonunun çalışmasını sağla.
 }

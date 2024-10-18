@@ -1,10 +1,19 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import useLogin from "../../hooks/useLogin.js";
 
 const Login = () => {
     const [isFocused, setIsFocused] = useState(false);
     const [UsernameisFocused, setUsernameIsFocused] = useState(false);
 
+    const [userName, setUserName] = useState("");
+    const [password, setPassword] = useState("");
+    const { loading, login } = useLogin();
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        await login(userName, password);
+    }
 
     return (
         <div
@@ -22,7 +31,7 @@ const Login = () => {
                         className="text-teal-500 drop-shadow-lg"
                     >ChatApp</span>
                 </h1>
-                <form >
+                <form onSubmit={handleSubmit}>
                     {/* Username */}
                     <div>
                         <label
@@ -40,6 +49,8 @@ const Login = () => {
                             focus:outline-0 focus:ring-1 focus:ring-lime-300"
                             onFocus={() => setUsernameIsFocused(true)}
                             onBlur={() => setUsernameIsFocused(false)}
+                            value={userName}
+                            onChange={(e) => setUserName(e.target.value)}
                         />
                     </div>
                     {/* password */}
@@ -59,6 +70,8 @@ const Login = () => {
                             focus:outline-0 focus:ring-1 focus:ring-lime-300"
                             onFocus={() => setIsFocused(true)}
                             onBlur={() => setIsFocused(false)}
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
                         />
                     </div>
                     {/* Underline animation on Don't have an account? text */}
@@ -78,8 +91,9 @@ const Login = () => {
                             transition-all duration-300 ease-in-out transform hover:scale-105 
                             hover:bg-lime-600 hover:text-lime-50 hover:border-lime-500 
                             hover:shadow-[0_0_20px_rgba(154,255,102,0.5)]"
+                            disabled={loading}
                         >
-                            Login
+                            {loading ? <span className="loading loading-spinner"></span> : "Login"}
                         </button>
                     </div>
                 </form>

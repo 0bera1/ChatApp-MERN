@@ -175,8 +175,9 @@ const Signup = () => {
                             transition-all duration-300 ease-in-out transform hover:scale-105 
                             hover:bg-lime-600 hover:text-lime-50 hover:border-lime-500 
                             hover:shadow-[0_0_20px_rgba(154,255,102,0.5)]"
+                            disabled={loading}
                         >
-                            Sign Up
+                            {loading ? <span className='loading loading-spinner'></span> : "Sign Up"}
                         </button>
                     </div>
                 </form>
