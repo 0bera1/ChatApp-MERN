@@ -16,8 +16,9 @@ function App() {
           <Route path="/login" element={< Login />} />
           <Route path="/signup" element={<Signup />} />
 
-        </Routes>
-        <Toaster />
+        </Routes> {/*  Routes component'i, sayfalar arasında geçiş yapmak için kullanılır */}
+        <Toaster /> {/* Toaster component'i, hata mesajlarını göstermek için kullanılır 
+        <Toaster/> ı burada kullanmak projenin her yerinde kullanabilmemizi sağlar. */}
       </div>
     </>
   )

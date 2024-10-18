@@ -10,7 +10,7 @@ const Signup = () => {
     const [isFocused2, setIsFocused2] = useState(false);
     const [EmailisFocused, setEmailIsFocused] = useState(false);
 
-    const [inputs, setInputs] = useState({
+    const [inputs, setInputs] = useState({ // inputları tutan state
         fullName: "",
         userName: "",
         email: "",
@@ -19,13 +19,13 @@ const Signup = () => {
         gender: ""
     })
 
-    const {loading,signup} = useSignup();
+    const {loading,signup} = useSignup(); // useSignup hook'unu kullan
 
-    const handleCheckBox = (gender) => {
+    const handleCheckBox = (gender) => { 
         setInputs({...inputs,gender})
     }
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = async (e) => { // Butona basıldığında çalışacak fonksiyon
         e.preventDefault();
         await signup(inputs);
     }
