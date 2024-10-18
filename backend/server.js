@@ -9,7 +9,7 @@ import userRoutes from "./routes/user.routes.js";
 const app = express(); // create express app
 
 dotenv.config(); // read .env file
-const PORT = process.env.PORT || 5001; // if PORT is not defined in .env file then use 5001
+const PORT = process.env.PORT; // if PORT is not defined in .env file then use 5001
 app.use(express.json()); // parse json body of requests from req.body (bu kod ile gelen isteklerin body kısmındaki json verileri okunabilir (req.body den))
 app.use(cookieParser()); // parse cookies from requests
 
@@ -27,4 +27,5 @@ app.listen(PORT, () => {
   // start server
   connectDB(); // connect to database
   console.log(`Server is running on port ${PORT}`);
+  
 }); // log message to console

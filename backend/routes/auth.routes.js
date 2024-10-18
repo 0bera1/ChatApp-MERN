@@ -6,6 +6,7 @@ const router = express.Router();
 
 router.post("/signup", signup); // signup fonksiyonunu çağırır.
 
+
 router.post("/login", login); // login fonksiyonunu çağırır.
 
 router.post("/logout", logout); // logout fonksiyonunu çağırır.

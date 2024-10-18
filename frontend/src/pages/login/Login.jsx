@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 const Login = () => {
     const [isFocused, setIsFocused] = useState(false);
@@ -28,7 +29,7 @@ const Login = () => {
                             className="label p-2"
                         >
                             <span
-                                className={`text-base label-text transition-all duration-500 ${UsernameisFocused ? "text-lime-300" : "text-base"}`}
+                                className={`text-base label-text text-gray-300 transition-all duration-500 ${UsernameisFocused ? "text-lime-300" : "text-base"}`}
                             >
                                 Username:
                             </span>
@@ -47,7 +48,7 @@ const Login = () => {
                             className="label p-2"
                         >
                             <span
-                                className={`text-base label-text transition-all duration-500 ${isFocused ? "text-lime-300" : "text-base"}`}
+                                className={`text-base label-text text-gray-300 transition-all duration-500 ${isFocused ? "text-lime-300" : "text-base"}`}
                             >
                                 Password:
                             </span>
@@ -61,15 +62,15 @@ const Login = () => {
                         />
                     </div>
                     {/* Underline animation on Don't have an account? text */}
-                    <a
-                        href="#"
-                        className="text-sm relative transition-all duration-700 ease-in-out 
+                    <Link
+                        to={"/signup"}
+                        className="text-sm text-gray-300  relative transition-all duration-700 ease-in-out 
                     before:absolute before:-bottom-1 before:left-0 before:w-0 before:h-[2px]
                     before:bg-lime-300 before:transition-all before:duration-500 
                     hover:before:w-full hover:text-lime-300 mt-2 inline-block"
                     >
                         {"Don't have an account?"}
-                    </a>
+                    </Link>
                     {/* Login button */}
                     <div>
                         <button

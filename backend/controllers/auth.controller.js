@@ -7,11 +7,31 @@ export const signup = async (req, res) => {
   try {
     const { fullName, userName, email, password, confirmPassword, gender } =
       req.body; // req.body den gelen verileri al
+      console.log(req.body);
 
     if (password != confirmPassword) {
       // şifreler eşleşmiyorsa hata döndür
       return res.status(400).json({ error: "Password does not match." });
     }
+
+    if (password.length < 6) {
+      // şifre 6 karakterden kısa ise hata döndür
+      return res
+        .status(400)
+        .json({ error: "Password must be at least 6 characters long." });
+    }
+
+    if (!email.includes("@") || !email.includes(".com")) {
+      // email adresi geçerli değilse hata döndür
+      return res.status(400).json({ error: "Invalid email." });
+    }
+
+    if (!fullName || !userName || !email || !password || !confirmPassword || !gender) {
+      // eksik veri varsa hata döndür
+      return res.status(400).json({ error: "Please fill all the fields." });
+    }
+
+    
 
     const user = await User.findOne({ userName }); // kullanıcı adı veritabanında var mı kontrol et
 
@@ -77,6 +97,7 @@ export const login = async (req, res) => {
       return res.status(400).json({ error: "Invalid username or password." || ""}); // res.status(400) => Bad Request
       // || "" -> eğer hata mesajı yoksa boş bir string döndür
     }
+
 
     generateTokenAndSetCookie(user._id, res); // token oluştur ve cookie'ye kaydet
 

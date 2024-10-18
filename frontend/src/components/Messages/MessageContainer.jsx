@@ -3,7 +3,7 @@ import MessagesInput from './MessagesInput'
 import { TiMessages } from 'react-icons/ti'
 
 const MessageContainer = () => {
-  const chatSelected = true; // değişecek kısım, şuan yalnızca temsili
+  const chatSelected = false; // değişecek kısım, şuan yalnızca temsili
   return (
     <div className='md:min-w-[650px] flex flex-col '>
       {chatSelected ? <NoChatSelected /> : (
