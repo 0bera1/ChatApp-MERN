@@ -1,5 +1,7 @@
 import Conversation from "../models/conversation.model.js";
 import Message from "../models/message.model.js";
+import { getRecieverSocketId } from "../socket/socket.js";
+import { io } from "../socket/socket.js";
 
 export const sendMessage = async (req, res) => {
   try {
@@ -28,7 +30,6 @@ export const sendMessage = async (req, res) => {
       conversation.messages.push(newMessage._id);
     }
 
-    // SOCKET IO FUNCTIONALITY WILL GO HERE ! (SOCKET IO FONKSİYONELLİĞİ BURAYA GELECEK !)
     // We will make operations real-time using socket.io  (socket.io kullanarak işlemleri gerçek zamanlı yapılabilir hale getireceğiz. )
 
     // Konuşmayı kaydet.
@@ -38,6 +39,17 @@ export const sendMessage = async (req, res) => {
 
     // Yukarıdaki iki satırı tek bir satırda yazabiliriz. (ayrı ayrı en az 1'er sanıye beklemek yerine birlikte 1 saniye bekler)
     await Promise.all([conversation.save(), newMessage.save()]);
+
+    // SOCKET IO FUNCTIONALITY WILL GO HERE ! (SOCKET IO FONKSİYONELLİĞİ BURAYA GELECEK !)
+    const receiverSocketId = getRecieverSocketId(receiverID);
+    if (receiverSocketId) {
+      // Emit the new message to the receiver (Alıcıya yeni mesajı gönder)
+      // io.to(<socketID>).emit() used to send the events to the specific client 
+      //(io.to(<socketID>).emit(), belirli istemciye olayları göndermek için kullanılır)
+      io.to(receiverSocketId).emit("newMessage", newMessage); 
+    }
+    
+
 
     res.status(201).json(newMessage); // res.status(201) => Created
   } catch (error) {

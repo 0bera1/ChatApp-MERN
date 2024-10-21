@@ -1,3 +1,4 @@
+import { useSocketContext } from "../../context/SocketContext";
 import useConversation from "../../store/useConversation"
 
 const Conversation = ({ conversation, lastIdx }) => {
@@ -9,15 +10,15 @@ const Conversation = ({ conversation, lastIdx }) => {
     // isSelected, seçilen sohbetin _id'sini sohbetin _id'siyle karşılaştırarak
     // sohbetin seçilip seçilmediğini kontrol eden bir booleandır.
     const isSelected = selectedConversation?._id === conversation._id;
+
+    const { onlineUsers } = useSocketContext();
+    const isOnline = onlineUsers.includes(conversation._id);  // Check if the user is online
     return (
         <>
             <div className={`flex gap-2 items-center hover:bg-teal-500 rounded p-2 py-1 cursor-pointer 
                 ${isSelected ? "bg-teal-500" : ""}`}
-                onClick={() => setSelectedConversation(conversation)}
-                >
-
-
-                <div className='avatar online'>
+                onClick={() => setSelectedConversation(conversation)}>
+                <div className={`avatar ${isOnline ? "online" : ""}`}>
                     <div className='w-12 rounded-full'>
                         <img src={conversation.profilePicture}
                             alt='user avatar' />
