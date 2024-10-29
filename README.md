@@ -40,7 +40,7 @@ npm start
       npm run server
       ```
       - (frontend)
-   ```bash
-   cd frontend
-   npm run dev
-   ```
+      ```bash
+      cd frontend
+      npm run dev
+      ```
